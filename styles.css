@@ -32,7 +32,7 @@ body {
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
-  border-width: 0;
+  border-width: 2px;
 }
 
 .container {
@@ -131,6 +131,7 @@ header {
   border-radius: 0.25rem;
   margin-bottom: 2rem;
   color: var(--dark-blue);
+  border: 2px solid blue;
 }
 
 .card h3 {
@@ -158,6 +159,7 @@ header {
   width: 100%;
   display: block;
   overflow-x: auto;
+  border: 2px solid red;
 }
 
 #data-table {
@@ -273,9 +275,10 @@ input {
 
 footer {
   text-align: center;
-  padding: 4rem 0 2rem;
-  color: var(--dark-blue);
+  padding:  0 2rem;
+  color: #0e3002;;
   opacity: 0.6;
+  margin-top: 20px;
 }
 
 /* ========== Responsive ========== */
