@@ -103,14 +103,13 @@ header {
   text-align: center;
 }
 
-#logo {
-  color: #fff;
-  font-weight: 100;
+.logo {
+  width: 150px;
 }
 
 .titulo {
   color: white;
-  font-size: 2rem;
+  font-size: 3rem;
 }
 
 /* ========== Balance ========== */
