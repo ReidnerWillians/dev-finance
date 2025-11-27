@@ -33,6 +33,7 @@ body {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border-width: 2px;
+  border: 2px solid rgb(0, 0, 255);
 }
 
 .container {
@@ -116,11 +117,13 @@ header {
 
 #balance {
   margin-top: -8rem;
+  border: 3px solid yellow;
 }
 
 #balance h2 {
   color: #fff;
   margin-top: 0;
+  border: 3px solid green;
 }
 
 /* ========== Cards ========== */

@@ -213,3 +213,49 @@ const App = {
 };
 
 App.init();
+
+// Conecta elementos do DOM aos handlers globais existentes (Modal / Form).
+document.addEventListener('DOMContentLoaded', () => {
+  const openBtn = document.getElementById('open-modal');
+  const cancelBtn = document.getElementById('cancel-button');
+  const overlay = document.getElementById('modal-overlay');
+  const form = document.getElementById('transaction-form');
+
+  const callModalToggle = (event) => {
+    event?.preventDefault();
+    // chama Modal.toogle se existir (mantém compatibilidade com seu código atual)
+    if (window.Modal && typeof window.Modal.toogle === 'function') {
+      window.Modal.toogle();
+    } else if (window.Modal && typeof window.Modal.toggle === 'function') {
+      window.Modal.toggle();
+    }
+  };
+
+  if (openBtn) openBtn.addEventListener('click', callModalToggle);
+  if (cancelBtn) cancelBtn.addEventListener('click', callModalToggle);
+
+  // fechar modal ao clicar fora (opcional — chama o mesmo toogle)
+  if (overlay) {
+    overlay.addEventListener('click', (ev) => {
+      if (ev.target === overlay) callModalToggle(ev);
+    });
+  }
+
+  // Esc para fechar modal
+  document.addEventListener('keydown', (ev) => {
+    if (ev.key === 'Escape') callModalToggle(ev);
+  });
+
+  // Submissão do formulário: chama Form.submit se existir, senão previne comportamento padrão
+  if (form) {
+    form.addEventListener('submit', (ev) => {
+      ev.preventDefault();
+      if (window.Form && typeof window.Form.submit === 'function') {
+        window.Form.submit(ev);
+      } else {
+        // se não existir, apenas fecha modal como fallback
+        callModalToggle(ev);
+      }
+    });
+  }
+});
