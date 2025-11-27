@@ -18,7 +18,309 @@ const Storage = {
 };
 
 const Transaction = {
-  all: Storage.get(),
+  all: Storage.get(),  // ...existing code...
+  
+  // Conecta elementos do DOM aos handlers globais existentes (Modal / Form).
+  document.addEventListener('DOMContentLoaded', () => {
+    const openBtn = document.getElementById('open-modal');
+    const cancelBtn = document.getElementById('cancel-button');
+    const overlay = document.getElementById('modal-overlay');
+    const form = document.getElementById('transaction-form');
+  
+    const callModalToggle = (event) => {
+      event?.preventDefault();
+      // chama Modal.toogle se existir (mantém compatibilidade com seu código atual)
+      if (window.Modal && typeof window.Modal.toogle === 'function') {
+        window.Modal.toogle();
+      } else if (window.Modal && typeof window.Modal.toggle === 'function') {
+        window.Modal.toggle();
+      }
+    };
+  
+    if (openBtn) openBtn.addEventListener('click', callModalToggle);
+    if (cancelBtn) cancelBtn.addEventListener('click', callModalToggle);
+  
+    // fechar modal ao clicar fora (opcional — chama o mesmo toogle)
+    if (overlay) {
+      overlay.addEventListener('click', (ev) => {
+        if (ev.target === overlay) callModalToggle(ev);
+      });
+    }
+  
+    // Esc para fechar modal
+    document.addEventListener('keydown', (ev) => {
+      if (ev.key === 'Escape') callModalToggle(ev);
+    });
+  
+    // Submissão do formulário: chama Form.submit se existir, senão previne comportamento padrão
+    if (form) {
+      form.addEventListener('submit', (ev) => {
+        ev.preventDefault();
+        if (window.Form && typeof window.Form.submit === 'function') {
+          window.Form.submit(ev);
+        } else {
+          // se não existir, apenas fecha modal como fallback
+          callModalToggle(ev);
+        }
+      });
+    }
+  });  // ...existing code...
+        <section id="transaction">
+          <h2 class="sr-only">Transações</h2>
+  
+  -        <a onclick="Modal.toogle()" href="#" class="button new">+ Nova Transação</a>
+  +        <button id="open-modal" type="button" class="button new" aria-haspopup="dialog" aria-controls="form">+ Nova Transação</button>
+  
+  -        <table id="data-table">
+  -          <date>
+  -          <thead>
+  -              <th>Descrição</th>
+  -              <th>Valor</th>
+  -              <th>Data</th>
+  -              <th></th>
+  -            </tr>
+  -          </thead>
+  -
+  -          <tbody>
+  -          </tbody>
+  -        </table>
+  +        <table id="data-table" role="table" aria-label="Tabela de transações">
+  +          <thead>
+  +            <tr>
+  +              <th scope="col">Descrição</th>
+  +              <th scope="col">Valor</th>
+  +              <th scope="col">Data</th>
+  +              <th scope="col"></th>
+  +            </tr>
+  +          </thead>
+  +          <tbody>
+  +          </tbody>
+  +        </table>
+        </section>
+      </main>
+  // ...existing code...
+  -    <div class="modal-overlay">
+  -      <div class="modal">
+  -        <div id="form">
+  -          <h2>Nova Transação</h2>
+  +    <div class="modal-overlay" id="modal-overlay" aria-hidden="true">
+  +      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  +        <div id="form" role="document">
+  +          <h2 id="modal-title">Nova Transação</h2>
+  ...
+  -          <form action="" onsubmit="Form.submit(event)" >
+  +          <form id="transaction-form" action="" >
+               <div class="input-group">
+  -              <label class="sr-only" for="description"></label>
+  -              <input
+  -                type="text"
+  -                name="description"
+  -                id="description"
+  -                placeholder="Descrição"
+  -              />
+  +              <label class="sr-only" for="description">Descrição</label>
+  +              <input
+  +                type="text"
+  +                name="description"
+  +                id="description"
+  +                placeholder="Descrição"
+  +                aria-label="Descrição"
+  +                required
+  +              />
+               </div>
+   
+               <div class="input-group">
+  -              <label class="sr-only" for="amount">Valor</label>
+  -              <input
+  -                type="number"
+  -                step="0.01"
+  -                name="amount"
+  -                id="amount"
+  -                placeholder="0,00"
+  -              />
+  +              <label class="sr-only" for="amount">Valor</label>
+  +              <input
+  +                type="text"
+  +                inputmode="decimal"
+  +                name="amount"
+  +                id="amount"
+  +                placeholder="0,00"
+  +                aria-label="Valor"
+  +                required
+  +              />
+                 <small class="help"
+                   >Use o sinal - (negativo) para as despesas e , (vírgula) para
+                   casas decimais
+                 </small>
+               </div>
+   
+               <div class="input-group">
+  -              <label class="sr-only" for="date"></label>
+  -              <input
+  -                type="date"
+  -                id="date"
+  -                name="date"
+  -                placeholder="01/01/2021"
+  -              />
+  +              <label class="sr-only" for="date">Data</label>
+  +              <input
+  +                type="date"
+  +                id="date"
+  +                name="date"
+  +                placeholder="01/01/2021"
+  +                aria-label="Data"
+  +                required
+  +              />
+               </div>
+   
+               <div class="input-group actions">
+  -              <a onclick="Modal.toogle()" href="#" class="button cancel">Cancelar</a>
+  -              <button>Salvar</button>
+  +              <button id="cancel-button" type="button" class="button cancel">Cancelar</button>
+  +              <button id="save-button" type="submit">Salvar</button>
+               </div>
+             </form>
+           </div>
+         </div>
+       </div>
+  // ...existing code...
+  -    <footer>
+  +    <footer>
+         <p>©FinanceiroFarm   e-mail - pachecoreidner@gmail.com </p>
+       </footer>
+   
+  -    <script src="./script.js"></script>
+  +    <script src="./script.js"></script>
+     </body>
+   </html>  // ...existing code...
+        <section id="transaction">
+          <h2 class="sr-only">Transações</h2>
+  
+  -        <a onclick="Modal.toogle()" href="#" class="button new">+ Nova Transação</a>
+  +        <button id="open-modal" type="button" class="button new" aria-haspopup="dialog" aria-controls="form">+ Nova Transação</button>
+  
+  -        <table id="data-table">
+  -          <date>
+  -          <thead>
+  -              <th>Descrição</th>
+  -              <th>Valor</th>
+  -              <th>Data</th>
+  -              <th></th>
+  -            </tr>
+  -          </thead>
+  -
+  -          <tbody>
+  -          </tbody>
+  -        </table>
+  +        <table id="data-table" role="table" aria-label="Tabela de transações">
+  +          <thead>
+  +            <tr>
+  +              <th scope="col">Descrição</th>
+  +              <th scope="col">Valor</th>
+  +              <th scope="col">Data</th>
+  +              <th scope="col"></th>
+  +            </tr>
+  +          </thead>
+  +          <tbody>
+  +          </tbody>
+  +        </table>
+        </section>
+      </main>
+  // ...existing code...
+  -    <div class="modal-overlay">
+  -      <div class="modal">
+  -        <div id="form">
+  -          <h2>Nova Transação</h2>
+  +    <div class="modal-overlay" id="modal-overlay" aria-hidden="true">
+  +      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  +        <div id="form" role="document">
+  +          <h2 id="modal-title">Nova Transação</h2>
+  ...
+  -          <form action="" onsubmit="Form.submit(event)" >
+  +          <form id="transaction-form" action="" >
+               <div class="input-group">
+  -              <label class="sr-only" for="description"></label>
+  -              <input
+  -                type="text"
+  -                name="description"
+  -                id="description"
+  -                placeholder="Descrição"
+  -              />
+  +              <label class="sr-only" for="description">Descrição</label>
+  +              <input
+  +                type="text"
+  +                name="description"
+  +                id="description"
+  +                placeholder="Descrição"
+  +                aria-label="Descrição"
+  +                required
+  +              />
+               </div>
+   
+               <div class="input-group">
+  -              <label class="sr-only" for="amount">Valor</label>
+  -              <input
+  -                type="number"
+  -                step="0.01"
+  -                name="amount"
+  -                id="amount"
+  -                placeholder="0,00"
+  -              />
+  +              <label class="sr-only" for="amount">Valor</label>
+  +              <input
+  +                type="text"
+  +                inputmode="decimal"
+  +                name="amount"
+  +                id="amount"
+  +                placeholder="0,00"
+  +                aria-label="Valor"
+  +                required
+  +              />
+                 <small class="help"
+                   >Use o sinal - (negativo) para as despesas e , (vírgula) para
+                   casas decimais
+                 </small>
+               </div>
+   
+               <div class="input-group">
+  -              <label class="sr-only" for="date"></label>
+  -              <input
+  -                type="date"
+  -                id="date"
+  -                name="date"
+  -                placeholder="01/01/2021"
+  -              />
+  +              <label class="sr-only" for="date">Data</label>
+  +              <input
+  +                type="date"
+  +                id="date"
+  +                name="date"
+  +                placeholder="01/01/2021"
+  +                aria-label="Data"
+  +                required
+  +              />
+               </div>
+   
+               <div class="input-group actions">
+  -              <a onclick="Modal.toogle()" href="#" class="button cancel">Cancelar</a>
+  -              <button>Salvar</button>
+  +              <button id="cancel-button" type="button" class="button cancel">Cancelar</button>
+  +              <button id="save-button" type="submit">Salvar</button>
+               </div>
+             </form>
+           </div>
+         </div>
+       </div>
+  // ...existing code...
+  -    <footer>
+  +    <footer>
+         <p>©FinanceiroFarm   e-mail - pachecoreidner@gmail.com </p>
+       </footer>
+   
+  -    <script src="./script.js"></script>
+  +    <script src="./script.js"></script>
+     </body>
+   </html>
 
   add(transaction) {
     Transaction.all.push(transaction);
