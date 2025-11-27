@@ -19,7 +19,8 @@ html {
 
 body {
   background: #f0f2f5;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Calibri', sans-serif;
+  font-size: 1.4rem;
 }
 
 .sr-only {
@@ -105,6 +106,11 @@ header {
 #logo {
   color: #fff;
   font-weight: 100;
+}
+
+.titulo {
+  color: white;
+  font-size: 2rem;
 }
 
 /* ========== Balance ========== */
@@ -275,7 +281,7 @@ footer {
 
 /* ========== Responsive ========== */
 
-@media(min-width: 800px) {
+@media(min-width: 435px) {
   html {
     font-size: 87.5%;
   }
