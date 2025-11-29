@@ -101,11 +101,18 @@ header {
   padding: 2rem 0 10rem;
   text-align: center;
 }
-
 .logo {
   color: #fff;
+  font-size:20px;
+  text-align: center;
+}
+.img {
+  width: 150px;
+  align-items: center;
+}
+#logo {
+  color: #fff;
   font-weight: 100;
-  width: 200px;
 }
 
 /* ========== Balance ========== */
